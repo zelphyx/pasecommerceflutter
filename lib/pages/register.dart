@@ -110,7 +110,7 @@ class _RegisterState extends State<Register> {
                       },
                       child:
                       Text(
-                        'Sign In',
+                        'SIGN IN',
                         style: TextStyle(
                           color: Colors.blue,
                           fontSize: 11,
@@ -120,7 +120,8 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                   ],),
-                SizedBox(height: mediaheight * 0.1,)
+                SizedBox(height: mediaheight * 0.11,)
+
 
 
               ],
