@@ -1,25 +1,90 @@
-import 'package:flutter/material.dart';
-import 'package:pas_kelas11/pages/register.dart';
-import 'package:pas_kelas11/reusable_widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pas_kelas11/data,method,dll./AuthMethod.dart';
+import 'package:pas_kelas11/pages/homepagetest.dart';
+import 'package:pas_kelas11/pages/register.dart';
+import 'package:pas_kelas11/data,method,dll./reusable_widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:pas_kelas11/data,method,dll./snackbar.dart';
+
+
+GoogleSignIn _googleSignIn = GoogleSignIn(
+scopes: <String>[
+  'email',
+]
+);
 class loginpage extends StatefulWidget {
   const loginpage({super.key});
+
 
   @override
   State<loginpage> createState() => _loginpageState();
 }
 
 class _loginpageState extends State<loginpage> {
-  TextEditingController usncontroller = TextEditingController();
+  TextEditingController emailcontroller = TextEditingController();
   TextEditingController pwcontroller = TextEditingController();
+  GoogleSignInAccount? _currentUser; // Tambah disini
+  bool ShowSpinner = false;
+  bool isLoading = false;
+
+
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailcontroller.dispose();
+    pwcontroller.dispose();
+  }
+
+  void loginUser() async{
+    setState(() {
+      isLoading = true;
+    });
+    String res = await AuthMethod().loginUser(email: emailcontroller.text, password: pwcontroller.text);
+    if(res == "Success"){
+      setState(() {
+        isLoading = false;
+      });
+      Get.toNamed("/homepage");
+    }else{
+      setState(() {
+        isLoading = false;
+      });
+      showsnackbar(context, res);
+    }
+  }
+
+  @override
+  void initState() {
+    _googleSignIn.onCurrentUserChanged.listen((account) {
+      setState(() {
+        _currentUser = account;
+      });
+    });
+    _googleSignIn.signInSilently();
+    super.initState();
+  }
+  Future<void> _handleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+      
+    } catch (error) {
+        print(error);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     double mediaheight = MediaQuery.of(context).size.height;
     double mediawidth = MediaQuery.of(context).size.width;
     return Scaffold(
-        body: SingleChildScrollView(
+        body: _currentUser == null? SingleChildScrollView(
         child: Container(
         child: Column(
           children: [
@@ -34,13 +99,15 @@ class _loginpageState extends State<loginpage> {
               fontFamily: GoogleFonts.poppins().fontFamily,
               fontSize: 20,
               fontWeight: FontWeight.w900
-            ),),SizedBox(height: mediaheight * 0.05,),
-            buildTextTop(textForLabel: "Email Address",icon: Icons.mail,controller: usncontroller),
+            ),
+            ),
+            SizedBox(height: mediaheight * 0.05,),
+            TextFieldInput(textEditingController: emailcontroller, hintText: "Insert Your Email", textInputType: TextInputType.text, label: "Email", icon: Icons.email),
             SizedBox(height: mediaheight * 0.015,),
-            buildTextTop(textForLabel: "Password",isPasswordType:true,icon: Icons.lock,controller: pwcontroller),
+            TextFieldInput(textEditingController: pwcontroller,isPass:true, hintText: "Insert Your Password", textInputType: TextInputType.text, label: "Password" ,icon: Icons.lock),
             InkWell(
               onTap: () {
-                // Add your click action here
+
               },
               child: Container(
                 margin: EdgeInsets.only( right: 20, bottom: 5),
@@ -89,7 +156,7 @@ class _loginpageState extends State<loginpage> {
             SizedBox(height: mediaheight * 0.03,),
             InkWell(
               onTap: () {
-                // Add your click action here
+                _handleSignIn();
               },
               child: Container(
                 width: 50,
@@ -112,9 +179,8 @@ class _loginpageState extends State<loginpage> {
               ),
             ),
           SizedBox(height: mediaheight * 0.1,),
-          buildButton(text: "SIGN IN",onPressed: (){
+            buildButton(text: "SIGN IN", onPressed: loginUser),
 
-          }),
             SizedBox(height: mediaheight * 0.005,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -128,7 +194,7 @@ class _loginpageState extends State<loginpage> {
             ),
               InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Register()));
+                  Get.toNamed('/register');
                 },
                 child:
                       Text(
@@ -150,7 +216,19 @@ class _loginpageState extends State<loginpage> {
           ],
         ),
       ),
+        ) : Container(child: ListTile(
+          leading: GoogleUserCircleAvatar(identity: _currentUser!,),
+          title: Text(_currentUser!.displayName ?? ''),
+          subtitle: Text(_currentUser!.email),
+    trailing: IconButton(
+    onPressed: (){
+    _googleSignIn.disconnect();
+    }, icon: Icon(Icons.logout),
+        ),
+        )
         )
     );
   }
 }
+
+

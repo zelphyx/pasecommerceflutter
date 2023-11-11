@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "637218275668",
+    "project_id": "pas-ecommerce",
+    "storage_bucket": "pas-ecommerce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:637218275668:android:6b5c44b0e1b562ad0108c1",
+        "android_client_info": {
+          "package_name": "com.example.pas_kelas11"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "637218275668-6f2sflumvie83dpojbvu3vpns6mh9qp1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pas_kelas11",
+            "certificate_hash": "192ea3b851e861aac6092ea613555a47ede6fdbe"
+          }
+        },
+        {
+          "client_id": "637218275668-73r4c4bfaq7ue9tf45emknlgje4cta04.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoaU1djZBymlcZrsrMihU8SBSOehwabHY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "637218275668-73r4c4bfaq7ue9tf45emknlgje4cta04.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
