@@ -44,6 +44,7 @@ dependencies:
   get:
   shared_preferences:
   cloud_firestore:
+  flutter_signin_button:
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +76,7 @@ flutter:
      - asset/asset1.jpg
      - asset/asset2.jpg
      - asset/logozzz.png
+     - asset/
   #   - images/a_dot_ham.jpeg
    uses-material-design: true
 
