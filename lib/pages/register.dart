@@ -7,7 +7,6 @@ import 'package:pas_kelas11/pages/login.dart';
 import 'package:pas_kelas11/data,method,dll./reusable_widgets.dart';
 import 'package:pas_kelas11/data,method,dll./snackbar.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -87,144 +86,146 @@ class _RegisterState extends State<Register> {
     double mediawidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: _currentUser == null
-          ? SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              SizedBox(
-                height: mediaheight * 0.02,
-              ),
-              Center(
-                child: Image.asset(
-                  'asset/asset1.jpg',
-                  width: mediawidth * 0.8,
+          ? ListView(
+        children: [
+          Container(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: mediaheight * 0.02,
                 ),
-              ),
-              Text(
-                "Become Our Member!",
-                style: TextStyle(
-                  fontFamily: GoogleFonts.poppins().fontFamily,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w900,
+                Center(
+                  child: Image.asset(
+                    'asset/asset1.jpg',
+                    width: mediawidth * 0.8,
+                  ),
                 ),
-              ),
-              SizedBox(height: mediaheight * 0.05,),
-              TextFieldInput(
-                textEditingController: usncontroller,
-                hintText: "Insert Your Username",
-                textInputType: TextInputType.text,
-                label: "Username",
-                icon: Icons.person,
-              ),
-              SizedBox(height: mediaheight * 0.01,),
-              TextFieldInput(
-                textEditingController: emailcontroller,
-                hintText: "Insert Your Email",
-                textInputType: TextInputType.text,
-                label: "Email",
-                icon: Icons.email,
-              ),
-              SizedBox(height: mediaheight * 0.01,),
-              TextFieldInput(
-                textEditingController: pwcontroller,
-                hintText: "Insert Your Password",
-                textInputType: TextInputType.text,
-                label: "Password",
-                icon: Icons.lock,
-              ),
-              SizedBox(height: mediaheight * 0.02,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Row(
+                Text(
+                  "Become Our Member!",
+                  style: TextStyle(
+                    fontFamily: GoogleFonts.poppins().fontFamily,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                SizedBox(height: mediaheight * 0.05,),
+                TextFieldInput(
+                  textEditingController: usncontroller,
+                  hintText: "Insert Your Username",
+                  textInputType: TextInputType.text,
+                  label: "Username",
+                  icon: Icons.person,
+                ),
+                SizedBox(height: mediaheight * 0.01,),
+                TextFieldInput(
+                  textEditingController: emailcontroller,
+                  hintText: "Insert Your Email",
+                  textInputType: TextInputType.text,
+                  label: "Email",
+                  icon: Icons.email,
+                ),
+                SizedBox(height: mediaheight * 0.01,),
+                TextFieldInput(
+                  textEditingController: pwcontroller,
+                  hintText: "Insert Your Password",
+                  textInputType: TextInputType.text,
+                  label: "Password",
+                  icon: Icons.lock,
+                ),
+                SizedBox(height: mediaheight * 0.02,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          thickness: 1,
+                          color: Colors.grey[400],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Text(
+                          'Or',
+                          style: TextStyle(
+                              color: Colors.grey[700],
+                              fontFamily: GoogleFonts.poppins().fontFamily,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          thickness: 1,
+                          color: Colors.grey[400],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: mediaheight * 0.03,),
+                InkWell(
+                  onTap: () {
+                    _handleRegister();
+                  },
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: Color(0xFFECEFFB),
+                        width: 2,
+                      ),
+                    ),
+                    child: Center(
+                      child: Image.asset(
+                        'asset/googs.png',
+                        width: 25,
+                        height: 25,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: mediaheight * 0.1,),
+                buildButton(text: "SIGN UP", onPressed: () {
+                  signUpuser();
+                }),
+                SizedBox(height: mediaheight * 0.005,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.grey[400],
+                    Text(
+                      "Already have an Account?",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 11,
+                        fontFamily: GoogleFonts.poppins().fontFamily,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    Padding(
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 10.0),
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed("/login");
+                      },
                       child: Text(
-                        'Or',
+                        'SIGN IN',
                         style: TextStyle(
-                            color: Colors.grey[700],
-                            fontFamily: GoogleFonts.poppins().fontFamily,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Expanded(
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.grey[400],
+                          color: Colors.blue,
+                          fontSize: 11,
+                          fontFamily: GoogleFonts.poppins().fontFamily,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ),
-              SizedBox(height: mediaheight * 0.03,),
-              InkWell(
-                onTap: () {
-                  _handleRegister();
-                },
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: Color(0xFFECEFFB),
-                      width: 2,
-                    ),
-                  ),
-                  child: Center(
-                    child: Image.asset(
-                      'asset/googs.png',
-                      width: 25,
-                      height: 25,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: mediaheight * 0.1,),
-              buildButton(text: "SIGN UP", onPressed: () {
-                signUpuser();
-              }),
-              SizedBox(height: mediaheight * 0.005,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Already have an Account?",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 11,
-                      fontFamily: GoogleFonts.poppins().fontFamily,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Get.toNamed("/login");
-                    },
-                    child: Text(
-                      'SIGN IN',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 11,
-                        fontFamily: GoogleFonts.poppins().fontFamily,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: mediaheight * 0.1,),
-            ],
+                SizedBox(height: mediaheight * 0.1,),
+              ],
+            ),
           ),
-        ),
+        ],
       )
           : loginpage(),
     );

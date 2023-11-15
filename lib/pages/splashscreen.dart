@@ -23,7 +23,7 @@ class _SplashState extends State<Splash> {
 
       Future.delayed(Duration(seconds: 2), () {
 
-        Get.offNamed("/register");
+        Get.offNamed("/onboard");
       });
     });
   }
