@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//detail
 class DetailController {
   PageController pageController = PageController();
   int currentPage = 0;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pas_kelas11/DetailPage/detail_controller.dart';
 
+//detail
 class DetailPage extends StatelessWidget {
   final DetailController controller = Get.put(DetailController());
 
