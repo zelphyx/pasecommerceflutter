@@ -1,8 +1,17 @@
-class Onboardingmodel {
-  String image;
-  String title;
-  String discription;
+import 'dart:ui';
 
-  Onboardingmodel({required this.image, required this.title, required this.discription});
+class OnboardModel {
+  String img;
+  String text;
+  String desc;
+  Color bg;
+  Color button;
+
+  OnboardModel({
+    required this.img,
+    required this.text,
+    required this.desc,
+    required this.bg,
+    required this.button,
+  });
 }
-

@@ -85,8 +85,7 @@ class _RegisterState extends State<Register> {
     double mediaheight = MediaQuery.of(context).size.height;
     double mediawidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: _currentUser == null
-          ? ListView(
+      body: ListView(
         children: [
           Container(
             child: Column(
@@ -227,7 +226,7 @@ class _RegisterState extends State<Register> {
           ),
         ],
       )
-          : loginpage(),
+
     );
   }
 }

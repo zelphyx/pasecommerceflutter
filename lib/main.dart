@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pas_kelas11/data,method,dll./firebase_options.dart';
 import 'package:pas_kelas11/Routes/PageRoutes.dart';
-import 'package:pas_kelas11/pages/login.dart';
-import 'package:pas_kelas11/pages/register.dart';
-import 'package:pas_kelas11/pages/splashscreen.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+int? isviewed;
 
 void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  isviewed = prefs.getInt('onBoard');
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform
@@ -31,7 +35,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      initialRoute: '/home',
+      initialRoute: '/' ,
       getPages: routes,
     );
   }

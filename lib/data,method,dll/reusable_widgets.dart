@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pas_kelas11/data,method,dll/EcommerceListModel.dart';
+import 'package:item_count_number_button/item_count_number_button.dart';
+import 'package:pas_kelas11/data,method,dll/ProductController.dart';
+
+
+
+
 
 const Color primaryColor = Color(0xFF1e1d2e);
 const Color textColor = Color(0xFF979797);
@@ -125,6 +133,7 @@ class textbuild extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      textAlign: TextAlign.justify,
       style: TextStyle(
         color: color,
         fontSize: fontSize,
@@ -222,8 +231,10 @@ Widget builddiskon({
   );
 }
 
+
 class customcategorybutton extends StatelessWidget {
   final String text;
+  
   final VoidCallback? onPressed;
 
   customcategorybutton({
@@ -254,29 +265,29 @@ class customcategorybutton extends StatelessWidget {
 
 
 class buildcard extends StatelessWidget {
+
   final double mediaHeight;
-  final String imageUrl;
-  final String? title;
-  final double? price;
+  final Ecommercelistmodel produk;
+  Ecommercelistmodel? product;
 
   buildcard({
     required this.mediaHeight,
-    required this.imageUrl,
-    this.title,
-    this.price
+    required this.produk,
   });
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       margin: EdgeInsets.only(bottom: 10),
       child: Card(
+
         elevation: 8,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Container(
-          height: 200,
+          height: 300,
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(
@@ -294,7 +305,7 @@ class buildcard extends StatelessWidget {
                   child: SizedBox(
                     height: mediaHeight,
                     child: Image.network(
-                      imageUrl,
+                      produk.image,
                       height: mediaHeight,
                     ),
                   ),
@@ -303,7 +314,7 @@ class buildcard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
-                  title!,
+                  produk.title,
                   style: TextStyle(
                     fontSize: 9.0,
                     fontWeight: FontWeight.bold,
@@ -316,13 +327,14 @@ class buildcard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                   " \$${price.toString()}",
+                   " \$${produk.price}",
                   style: TextStyle(
                     fontSize: 12.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
+
             ],
           ),
         ),
@@ -334,4 +346,223 @@ class buildcard extends StatelessWidget {
 
 
 
+
+class CustomText extends StatelessWidget {
+  final String text;
+  final Color color;
+  final double fontSize;
+  final FontWeight fontWeight;
+  final double height;
+
+  CustomText({
+    required this.text,
+    required this.color,
+    required this.fontSize,
+    required this.fontWeight,
+    required this.height,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    List<String> words = text.split(' ');
+    String firstTwoWords = words.take(3).join(' ');
+    String remainingText = words.skip(3).take(3).join(' ');
+    String thirdtext = words.skip(6).take(3).join(' ');
+    String fourthtext = words.skip(9).join(' ');
+
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: firstTwoWords,
+            style: TextStyle(
+              color: color,
+              fontFamily: GoogleFonts.poppins().fontFamily,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              height: height,
+            ),
+          ),
+          TextSpan(
+            text: '\n$remainingText',
+            style: TextStyle(
+              color: color,
+              fontFamily: GoogleFonts.poppins().fontFamily,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              height: height,
+            ),
+          ),
+          TextSpan(
+            text: '\n$thirdtext',
+            style: TextStyle(
+              color: color,
+              fontFamily: GoogleFonts.poppins().fontFamily,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              height: height,
+            ),
+          ),
+          TextSpan(
+            text: '\n$fourthtext',
+            style: TextStyle(
+              color: color,
+              fontFamily: GoogleFonts.poppins().fontFamily,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              height: height,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+class cardcart extends StatelessWidget{
+  final String titleproduct;
+  final String imageproduct;
+  final double priceproduct;
+
+  cardcart({
+    required this.titleproduct,
+    required this.imageproduct,
+    required this.priceproduct,
+  });
+
+  @override
+
+  Widget build(BuildContext context) {
+    return Card(
+
+      color: Colors.white,
+      child: Container(
+        padding: EdgeInsets.only(left: 20,top:20,bottom: 20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(
+            color: Colors.black,
+            width: 2.0,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                border: Border.all(
+                  color: Colors.black, // Set the desired border color
+                  width: 2.0, // Set the desired border width
+                ),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.network(
+                  imageproduct,
+                  width: 80.0,
+                  height: 100.0,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  titleproduct,
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  priceproduct.toString(),
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+            Spacer(),
+
+
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CounterScreen extends StatefulWidget {
+  @override
+  _CounterScreenState createState() => _CounterScreenState();
+}
+
+class _CounterScreenState extends State<CounterScreen> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  void _decrementCounter() {
+    setState(() {
+      _counter--;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.purple,
+      appBar: AppBar(
+        title: Text('Aesthetic Counter'),
+        backgroundColor: Colors.blue,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimatedOpacity(
+              opacity: _counter != 0 ? 1.0 : 0.0,
+              duration: Duration(milliseconds: 500),
+              child: Text(
+                '$_counter',
+                style: TextStyle(
+                  fontSize: 48.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            SizedBox(height: 20.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FloatingActionButton(
+                  onPressed: _decrementCounter,
+                  backgroundColor: Colors.blue,
+                  child: Icon(Icons.remove),
+                ),
+                SizedBox(width: 20.0),
+                FloatingActionButton(
+                  onPressed: _incrementCounter,
+                  backgroundColor: Colors.purple,
+                  child: Icon(Icons.add),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
