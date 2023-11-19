@@ -4,12 +4,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:pas_kelas11/data,method,dll./AuthMethod.dart';
 
 import 'package:pas_kelas11/data,method,dll./reusable_widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pas_kelas11/data,method,dll./snackbar.dart';
 import 'package:pas_kelas11/pages/home_page.dart';
+
+import 'ForgotPass.dart';
 
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -51,7 +54,7 @@ class _loginpageState extends State<loginpage> {
       setState(() {
         isLoading = false;
       });
-      Get.toNamed("/homepage");
+      Get.to(HomePage());
     }else{
       setState(() {
         isLoading = false;
@@ -106,9 +109,10 @@ class _loginpageState extends State<loginpage> {
                   TextFieldInput(textEditingController: emailcontroller, hintText: "Insert Your Email", textInputType: TextInputType.text, label: "Email", icon: Icons.email),
                   SizedBox(height: mediaheight * 0.015,),
                   TextFieldInput(textEditingController: pwcontroller,isPass:true, hintText: "Insert Your Password", textInputType: TextInputType.text, label: "Password" ,icon: Icons.lock),
-                  InkWell(
+                  GestureDetector(
                     onTap: () {
-
+                      print("hai berhasil");
+                      Get.to(ForgotPass());
                     },
                     child: Container(
                       margin: EdgeInsets.only( right: 20, bottom: 5),
@@ -124,9 +128,11 @@ class _loginpageState extends State<loginpage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
+
                         ],
                       ),
                     ),
+
                   ),
                   SizedBox(height: mediaheight * 0.02,),
                   Padding(

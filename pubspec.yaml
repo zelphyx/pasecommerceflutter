@@ -45,6 +45,14 @@ dependencies:
   shared_preferences:
   cloud_firestore:
   flutter_signin_button:
+  google_nav_bar:
+  email_validator:
+  awesome_dialog:
+  rxdart:
+  curved_navigation_bar:
+  flutter_snake_navigationbar:
+  item_count_number_button:
+
 
 dev_dependencies:
   flutter_test:

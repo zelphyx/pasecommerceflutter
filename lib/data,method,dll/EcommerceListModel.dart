@@ -8,23 +8,43 @@ List<Ecommercelistmodel> ecommercelistmodelFromJson(String str) => List<Ecommerc
 
 String ecommercelistmodelToJson(List<Ecommercelistmodel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+
+class categories{
+  int id;
+  String title;
+
+  categories({
+    required this.id,
+    required this.title,
+});
+
+  factory categories.fromJson(Map<String,dynamic> json) => categories(
+      id: json["id"],
+      title: json["title"]);
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "title": title,
+  };
+
+}
+
 class Ecommercelistmodel {
   int id;
   String title;
   double price;
-  String description;
-  Category category;
+  String? description;
+  Category? category;
   String image;
-  Rating rating;
+  Rating? rating;
 
   Ecommercelistmodel({
     required this.id,
     required this.title,
     required this.price,
-    required this.description,
-    required this.category,
+     this.description,
+     this.category,
     required this.image,
-    required this.rating,
+     this.rating,
   });
 
   factory Ecommercelistmodel.fromJson(Map<String, dynamic> json) => Ecommercelistmodel(
@@ -44,7 +64,7 @@ class Ecommercelistmodel {
     "description": description,
     "category": categoryValues.reverse[category],
     "image": image,
-    "rating": rating.toJson(),
+    "rating": rating?.toJson(),
   };
 }
 
