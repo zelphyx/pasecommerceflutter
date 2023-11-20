@@ -52,7 +52,7 @@ class _RegisterState extends State<Register> {
       setState(() {
         isLoading = false;
       });
-      Get.toNamed("/login");
+      Get.offNamed("/login");
     } else {
       setState(() {
         isLoading = false;

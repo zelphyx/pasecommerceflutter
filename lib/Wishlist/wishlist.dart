@@ -43,7 +43,6 @@ class wishlistpage extends StatelessWidget {
               ),
               ),
             ),
-            Text("a1a2a3")
           ],
         ),
       ),

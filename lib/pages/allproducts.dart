@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pas_kelas11/data,method,dll/allmethod.dart';
-import 'package:pas_kelas11/data,method,dll/EcommerceListModel.dart';
 import '../DetailPage/detail_view.dart';
 import '../data,method,dll./reusable_widgets.dart';
 import '../data,method,dll/ProductController.dart';
@@ -13,10 +12,10 @@ class allproducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double mediaheight = MediaQuery.of(context).size.height;
-    double mediawidth = MediaQuery.of(context).size.width;
     return Scaffold(
       drawer: NavDrawer(),
       appBar: AppBar(
+        title: textbuild(text: 'Our Products', color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold, height: 0),
         actions: [
           buildsearchbar(ecommercecontroller)
         ],
@@ -38,7 +37,7 @@ class allproducts extends StatelessWidget {
                 onTap: () {
                   Get.to(() => DetailPage(product: product));
                   print(product.category);
-                  print('su');
+                  print('a');
                 },
                 child: buildcard(
                     mediaHeight: mediaheight,

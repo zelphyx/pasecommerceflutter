@@ -26,7 +26,7 @@ class landing extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () {
-                  Get.toNamed('/register');
+                  Get.offNamed('/register');
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.black,
@@ -44,7 +44,7 @@ class landing extends StatelessWidget {
               SizedBox(width: mediawidth * 0.05,),
               TextButton(
                 onPressed: () {
-                  Get.toNamed('/login');
+                  Get.offNamed('/login');
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.white,

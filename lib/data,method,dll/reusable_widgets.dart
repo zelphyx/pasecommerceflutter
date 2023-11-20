@@ -152,6 +152,7 @@ Widget builddiskon({
   required String itemDescription,
   required String couponCode,
   required String buttonText,
+  required VoidCallback? onPressed
 }) {
   return Padding(
     padding: EdgeInsets.only(right: 20.0),
@@ -201,7 +202,7 @@ Widget builddiskon({
                 ),
                 SizedBox(height: 10.0),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: onPressed,
                   style: ElevatedButton.styleFrom(
                     primary: Colors.black,
                     shape: RoundedRectangleBorder(
