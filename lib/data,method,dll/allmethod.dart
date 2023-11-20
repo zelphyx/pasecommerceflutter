@@ -146,15 +146,12 @@ class NavDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Text(
-              'Side menu',
-              style: TextStyle(color: Colors.white, fontSize: 25),
-            ),
+            child: textbuild(text: 'Shopzo', color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold, height: 0),
             decoration: BoxDecoration(
-              color: Colors.green,
+              color: Colors.white,
               image: DecorationImage(
                 fit: BoxFit.fill,
-                image: AssetImage('asset/asset1.jpg'),
+                image: AssetImage('asset/logozzz.png'),
               ),
             ),
           ),
@@ -186,13 +183,13 @@ class NavDrawer extends StatelessWidget {
               Get.to(profile());
             },
           ),
-          ListTile(
-            leading: Icon(Icons.shopping_bag),
-            title: Text('Cart'),
-            onTap: () {
-              Get.to(Cart());
-            },
-          ),
+          // ListTile(
+          //   leading: Icon(Icons.shopping_bag),
+          //   title: Text('Cart'),
+          //   onTap: () {
+          //     Get.to(Cart());
+          //   },
+          // ),
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
@@ -216,9 +213,18 @@ Container diskonlist(ControllerProduct ecommercecontroller){
       scrollDirection: Axis.horizontal,
       shrinkWrap: true,
       children: [
-        builddiskon(discountPercentage: "70%", itemDescription: " + Free 1 Merch", couponCode: "FSREACTION", buttonText: "Get Now"),
-        builddiskon(discountPercentage: "30%", itemDescription: " + Free Merch", couponCode: "FIRSTUSER", buttonText: "Get Now"),
-        builddiskon(discountPercentage: "20%", itemDescription: " + Free Shipping", couponCode: "SHIPDAY", buttonText: "Get Now")
+        builddiskon(discountPercentage: "70%",
+            itemDescription: " + Free 1 Merch",
+            couponCode: "FSREACTION",
+            buttonText: "Get Now",onPressed: () {
+            Get.to(() => allproducts());
+            }),
+        builddiskon(discountPercentage: "30%", itemDescription: " + Free Merch", couponCode: "FIRSTUSER", buttonText: "Get Now",onPressed: () {
+          Get.to(() => allproducts());
+        }),
+        builddiskon(discountPercentage: "20%", itemDescription: " + Free Shipping", couponCode: "SHIPDAY", buttonText: "Get Now",onPressed: () {
+          Get.to(() => allproducts());
+        })
       ],
     ),
   );

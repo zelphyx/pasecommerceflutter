@@ -78,13 +78,13 @@ class _CardCartState extends State<wishlistcard> {
                 child: GestureDetector(
                   onTap: () => widget.wishlistcontroller.remove(context, cartItem.id, cartItem.title),
                   child: Container(
-                    width: 30,
-                    height: 30,
+                    width: 50,
+                    height: 50,
                     decoration: BoxDecoration(
                       color: Colors.red,
                       borderRadius: BorderRadius.circular(100),
                     ),
-                    child: Icon(Icons.delete),
+                    child: Icon(Icons.delete,color: Colors.white,),
                   ),
                 ),
               ),
