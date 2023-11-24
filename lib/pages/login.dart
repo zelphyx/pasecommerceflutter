@@ -201,7 +201,7 @@ class _loginpageState extends State<loginpage> {
                       ),
                       InkWell(
                         onTap: () {
-                          Get.toNamed('/register');
+                          Get.offNamed('/register');
                         },
                         child:
                         Text(
