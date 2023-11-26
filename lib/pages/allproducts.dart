@@ -15,6 +15,7 @@ class allproducts extends StatelessWidget {
     return Scaffold(
       drawer: NavDrawer(),
       appBar: AppBar(
+        toolbarHeight: 56,
         title: textbuild(text: 'Our Products', color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold, height: 0),
         actions: [
           buildsearchbar(ecommercecontroller)

@@ -7,17 +7,13 @@ class CartController extends GetxController{
   RxBool isload = false.obs;
   var isGopayChecked = false.obs;
 
-  void changeGopayValue(bool value) {
-    isGopayChecked.value = value;
 
+  void updateRefreshFlag() {
+    isload.toggle();
   }
 
-  // double updateTotalPrice(BuildContext context, double totalPrice){
-  //   for (var item in cartlist) {
-  //     totalPrice += (item.price ?? 0.0) * (item.quantity ?? 1); // Calculate total price based on item prices and quantities
-  //   }
-  //   return totalPrice;
-  // }
+
+
 
   addToCart(BuildContext context, Ecommercelistmodel newItem) {
     bool isExisting = false;
@@ -28,6 +24,7 @@ class CartController extends GetxController{
         break;
       }
     }
+
 
     if (!isExisting) {
       cartlist.value.add(newItem);
@@ -53,7 +50,7 @@ class CartController extends GetxController{
   }
 
 
-  removeFromCart(BuildContext context, String id, String name) {
+  removeFromCart(BuildContext context, int id, String name) {
     cartlist.value.removeWhere((item) => item.id == id);
 
     ScaffoldMessenger.of(context).showSnackBar(
