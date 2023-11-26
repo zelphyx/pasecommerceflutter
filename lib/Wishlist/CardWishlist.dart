@@ -19,7 +19,7 @@ class wishlistcard extends StatefulWidget {
 }
 
 class _CardCartState extends State<wishlistcard> {
-  int counter = 1; // Initialize counter for quantity
+  int counter = 1;
 
   @override
   Widget build(BuildContext context) {

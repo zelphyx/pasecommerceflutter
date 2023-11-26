@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:pas_kelas11/Cart/CardCart.dart';
+import 'package:pas_kelas11/Cart/cart_controller.dart';
 import 'package:pas_kelas11/data,method,dll./reusable_widgets.dart';
-
+import 'package:get/get.dart';
+import 'package:pas_kelas11/data,method,dll/ProductController.dart';
 import '../data,method,dll/allmethod.dart';
 
 class Cart extends StatelessWidget {
+
   final currentidx = 1;
-  const Cart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,16 +17,12 @@ class Cart extends StatelessWidget {
 }
 
 class _CartContent extends StatefulWidget {
+
   @override
   _CartContentState createState() => _CartContentState();
 }
 
 class _CartContentState extends State<_CartContent> {
-  List<CartItem> cartItems = [
-    CartItem(name: 'Item 1', price: 100000, quantity: 2),
-    CartItem(name: 'Item 2', price: 50000, quantity: 1),
-
-  ];
 
   TextEditingController promoCodeController = TextEditingController();
   String appliedPromoCode = '';
@@ -47,13 +46,14 @@ class _CartContentState extends State<_CartContent> {
   }
 
   double get totalPrice {
-    double total = cartItems.fold(0, (sum, item) => sum + (item.price * item.quantity));
-
-    return total - totalDiscount;
+    return 123;
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final CartController cartcontroller = Get.put(CartController());
+    Size mediasize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: textbuild(
@@ -65,126 +65,106 @@ class _CartContentState extends State<_CartContent> {
         ),
       ),
       drawer: NavDrawer(),
-      body: ListView(
-        children: [
-          // Display cart items
-          Column(
-            children: cartItems
-                .map(
-                  (item) => ListTile(
-                title: Text(item.name),
-                subtitle: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Rp. ${item.price * item.quantity}'),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              if (item.quantity > 1) {
-                                item.quantity--;
-                              }
-                            });
-                          },
-                          icon: Icon(Icons.remove),
-                        ),
-                        Text(item.quantity.toString()),
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              item.quantity++;
-                            });
-                          },
-                          icon: Icon(Icons.add),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            )
-                .toList(),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 60.0),
-            child: Column(
+      body: Center(
+        child: ListView(
+          children: [
+            Column(
               children: [
-                SizedBox(height: 20.0),
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
-                      child: Container(
-                        width: double.infinity,
-                        height: 80.0,
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20.0),
-                              child: Text(
-                                'Promo Code',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18.0,
+
+                Container(
+                  width: mediasize.width,
+                  height: mediasize.height*0.49,
+                  child: Obx(()=> cartcontroller.isload == true ?
+                  ListView.builder(
+                    itemCount: cartcontroller.cartlist.length,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return cartt(cartitem: cartcontroller.cartlist.value[index]);
+                    },
+                  ) :
+                  ListView.builder(
+                    itemCount: cartcontroller.cartlist.length,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return cartt(cartitem: cartcontroller.cartlist.value[index]);
+                    },
+                  ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 60.0),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 20.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Promo Code',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0,
+                                  ),
                                 ),
-                              ),
-                            ),
-                            Container(
-                              width: 350.0, // Adjust the width as needed
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(right: 8.0),
-                                      child: TextFormField(
-                                        controller: promoCodeController,
-                                        decoration: InputDecoration(
-                                          hintText: '',
-                                          hintStyle: TextStyle(color: Colors.grey),
-                                          border: InputBorder.none,
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 10.0, right: 8.0),
+                                    child: TextFormField(
+                                      controller: promoCodeController,
+                                      decoration: InputDecoration(
+                                        hintText: 'Enter promo code',
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(10.0),
+                                          borderSide: BorderSide.none,
                                         ),
-                                        style: TextStyle(color: Colors.white),
                                       ),
+                                      style: TextStyle(color: Colors.black),
                                     ),
                                   ),
-                                  ElevatedButton(
-                                    onPressed: () => applyPromoCode(),
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      'Apply',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.0,
-                                      ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () => applyPromoCode(),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
                                     ),
                                   ),
-                                  SizedBox(width: 10.0),
-                                ],
-                              ),
+                                  child: Text(
+                                    'Apply',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                )
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
 
       bottomNavigationBar: BottomAppBar(

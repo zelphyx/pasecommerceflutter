@@ -175,6 +175,12 @@ class NavDrawer extends StatelessWidget {
             onTap: () {
               Get.to(wishlistpage());
             },
+          ),ListTile(
+            leading: Icon(Icons.shopping_bag),
+            title: Text('Cart'),
+            onTap: () {
+              Get.to(Cart());
+            },
           ),
           ListTile(
             leading: Icon(Icons.person),

@@ -7,6 +7,7 @@ import 'package:pas_kelas11/data,method,dll/allmethod.dart';
 import 'package:pas_kelas11/data,method,dll/reusable_widgets.dart';
 import '../data,method,dll/ProductController.dart';
 import 'detail_controller.dart';
+import 'package:pas_kelas11/Cart/cart_controller.dart';
 
 
 class DetailPage extends StatelessWidget {
@@ -14,6 +15,7 @@ class DetailPage extends StatelessWidget {
   Ecommercelistmodel product;
   final ecommercecontroller = Get.put(ControllerProduct());
   final wishcontroller = Get.put(ControllerWishlist());
+  final cartcontroller = Get.put(CartController());
 
   late final Category? category;
 
@@ -29,6 +31,7 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double mediaheight = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     print(product);
     return Scaffold(
       body: SingleChildScrollView(
@@ -152,6 +155,26 @@ bottomNavigationBar: BottomAppBar(
             ],
           ),
           Spacer(),
+          Container(
+            height: 50,
+            width: 50,
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: GestureDetector(
+              onTap: () {
+                cartcontroller.addToCart(context, product);
+                cartcontroller.updateRefreshFlag();
+              },
+              child: Icon(
+                Icons.shopping_bag,
+                color: Colors.white,  // Icon color
+              ),
+            ),
+          ),
+          SizedBox(width:width * 0.01 ,),
           Container(
             height: 50,
             padding: EdgeInsets.all(10),
