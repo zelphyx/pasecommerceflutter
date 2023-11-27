@@ -566,4 +566,33 @@ class _CounterScreenState extends State<CounterScreen> {
     );
   }
 }
+class reusablebutton extends StatelessWidget {
+  final String text;
+  final VoidCallback? onPressed;
 
+  const reusablebutton({
+    required this.text,
+    this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialButton(
+      onPressed: onPressed,
+      color: primaryColor,
+      textColor: Colors.white,
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 12,
+          fontFamily: GoogleFonts.poppins().fontFamily,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 130),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+    );
+  }
+}

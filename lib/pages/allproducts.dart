@@ -30,7 +30,8 @@ class allproducts extends StatelessWidget {
               crossAxisSpacing: 8.0,
               mainAxisSpacing: 8.0,
             ),
-            physics: NeverScrollableScrollPhysics(),
+            // Remove the NeverScrollableScrollPhysics
+            physics: ClampingScrollPhysics(),
             itemCount: ecommercecontroller.listmodelctr.length,
             itemBuilder: (BuildContext ctx, int idx) {
               final product = ecommercecontroller.listmodelctr[idx];
@@ -47,7 +48,6 @@ class allproducts extends StatelessWidget {
             },
           ),
         ],
-
       ),
     );
   }

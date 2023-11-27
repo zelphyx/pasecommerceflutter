@@ -3,6 +3,7 @@ import 'package:pas_kelas11/Cart/cart_view.dart';
 import 'package:pas_kelas11/Dashboard/DashboardView.dart';
 
 import 'package:pas_kelas11/Onboarding/onbording.dart';
+import 'package:pas_kelas11/Payment/PaymentPage.dart';
 
 import 'package:pas_kelas11/pages/allproducts.dart';
 import 'package:pas_kelas11/pages/home_page.dart';
@@ -24,7 +25,8 @@ GetPage(name: '/homepage', page: () =>  DashboardScreen()),
 GetPage(name: '/cart', page: () =>  Cart()),
 GetPage(name: '/allproduct', page: () =>  allproducts()),
 GetPage(name: '/landing', page: () =>  landing()),
-GetPage(name: '/profile', page: () =>  profile()),
+GetPage(name: '/profile', page: () =>  Profile()),
+GetPage(name: '/payment', page: () =>  paymentoption()),
 
 
 ];

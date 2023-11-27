@@ -4,70 +4,76 @@ import 'package:flutter/material.dart';
 
 import '../data,method,dll./reusable_widgets.dart';
 import '../data,method,dll/allmethod.dart';
+import 'ProfileController.dart';
 
 
-class profile extends StatefulWidget {
-  const profile({super.key});
+class Profile extends StatelessWidget {
+  final ProfileController _controller = ProfileController();
 
-  @override
-  State<profile> createState() => _profileState();
-}
-
-
-class _profileState extends State<profile> {
-  String? name = '';
-  String? email = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _getDatafromFirebase();
-  }
-
-  Future<void> _getDatafromFirebase() async {
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get()
-        .then((snapshot) {
-      if (snapshot.exists) {
-        setState(() {
-          name = snapshot.data()!['name'];
-          email = snapshot.data()!['email'];
-        });
-      }
-    });
-  }
-//
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: textbuild(text: 'My Profile', color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold, height: 0),
-      ),
-      drawer: NavDrawer(),
-      body: Container(
-        child: Align(
-          alignment: Alignment.center,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              textbuild(
-                  text: "Name : ${name!}",
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  height: 0),
-              textbuild(
-                  text: "Email : ${email!}",
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  height: 0),
-            ],
+        title: Text(
+          'My Profile',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
           ),
         ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
+      drawer: NavDrawer(),
+      body: FutureBuilder<Map<String, String>>(
+        future: _controller.getDataFromFirebase(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Loading state
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            // Error state
+            return Text('Error: ${snapshot.error}');
+          } else {
+            // Data loaded successfully
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  alignment: Alignment.topCenter,
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundImage: AssetImage('assets/profile_image.jpg'),
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        "Name: ${snapshot.data!['name']}",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        "Email: ${snapshot.data!['email']}",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          }
+        },
       ),
     );
   }
