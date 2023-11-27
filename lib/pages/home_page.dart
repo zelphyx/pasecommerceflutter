@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
             icon: const Icon(Icons.person),
             tooltip: 'Open shopping cart',
             onPressed: () {
-                  Get.to(profile());
+                  Get.to(Profile());
             },
           ),
         ],

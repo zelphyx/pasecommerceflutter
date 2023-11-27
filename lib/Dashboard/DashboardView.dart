@@ -22,7 +22,7 @@ class DashboardScreen extends StatelessWidget {
             index: controller.tabIndex,
             children:  [
               HomePage(),
-              profile(),
+              Profile(),
               wishlistpage(),
             ],
           ),

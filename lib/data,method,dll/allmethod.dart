@@ -186,7 +186,7 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.person),
             title: Text('Profile'),
             onTap: () {
-              Get.to(profile());
+              Get.to(Profile());
             },
           ),
           // ListTile(

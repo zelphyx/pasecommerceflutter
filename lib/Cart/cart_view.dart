@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pas_kelas11/Cart/CardCart.dart';
 import 'package:pas_kelas11/Cart/cart_controller.dart';
+import 'package:pas_kelas11/Payment/PaymentPage.dart';
 import 'package:pas_kelas11/data,method,dll./reusable_widgets.dart';
 import 'package:get/get.dart';
 import 'package:pas_kelas11/data,method,dll/ProductController.dart';
@@ -23,7 +24,7 @@ class _CartContent extends StatefulWidget {
 }
 
 class _CartContentState extends State<_CartContent> {
-
+  final CartController cartcontroller = Get.put(CartController());
   TextEditingController promoCodeController = TextEditingController();
   String appliedPromoCode = '';
 
@@ -36,8 +37,13 @@ class _CartContentState extends State<_CartContent> {
   }
 
 
-  void proceedToCheckout(BuildContext context) {
-
+  void checkout() {
+    if (cartcontroller.cartlist.isEmpty) {
+      Get.snackbar('Empty Cart', 'The Cart is Empty',
+          snackPosition: SnackPosition.TOP);
+    } else {
+      Get.to(() => paymentoption());
+    }
   }
 
   double get totalDiscount {
@@ -46,7 +52,14 @@ class _CartContentState extends State<_CartContent> {
   }
 
   double get totalPrice {
-    return 123;
+    double sum = 0.0;
+
+
+    for (var cartItem in cartcontroller.cartlist) {
+      sum += cartItem.price;
+    }
+
+    return sum;
   }
 
   @override
@@ -168,31 +181,9 @@ class _CartContentState extends State<_CartContent> {
       ),
 
       bottomNavigationBar: BottomAppBar(
-        height: MediaQuery.of(context).size.height * 0.20,
+        height: MediaQuery.of(context).size.height * 0.17,
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Total All items:',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                  ),
-                ),
-                Text(
-                  'Rp. ${totalPrice.toStringAsFixed(2)}',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                  ),
-                ),
-              ],
-            ),
-            // Display applied promo code and total discount
             if (appliedPromoCode.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 5.0),
@@ -252,44 +243,38 @@ class _CartContentState extends State<_CartContent> {
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(15.0),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: Text(
-                        'Proceed to Checkout',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 20.0),
-                        child: ElevatedButton(
-                          onPressed: () => proceedToCheckout(context),
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      checkout();
+                    },
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Proceed to Checkout',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
                             ),
                           ),
-                          child: Icon(
+                          Icon(
                             Icons.navigate_next_rounded,
                             size: 40,
-                            color: Colors.black,
+                            color: Colors.white,
                           ),
-                        ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
