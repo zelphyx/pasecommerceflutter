@@ -7,6 +7,7 @@ import 'package:pas_kelas11/pages/home_page.dart';
 import 'package:pas_kelas11/pages/landing.dart';
 import 'package:pas_kelas11/Profile/profile.dart';
 import 'package:pas_kelas11/Wishlist/wishlist.dart';
+import 'package:pas_kelas11/pages/test.dart';
 import 'EcommerceListModel.dart';
 import 'package:pas_kelas11/data,method,dll/reusable_widgets.dart';
 import 'package:pas_kelas11/data,method,dll/ProductController.dart';
@@ -189,25 +190,79 @@ class NavDrawer extends StatelessWidget {
               Get.to(Profile());
             },
           ),
-          // ListTile(
-          //   leading: Icon(Icons.shopping_bag),
-          //   title: Text('Cart'),
-          //   onTap: () {
-          //     Get.to(Cart());
-          //   },
-          // ),
+
+
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
             onTap: () async {
-              await signout();
-              Get.to(landing());
+
+              bool confirmLogout = await _showLogoutConfirmationDialog();
+
+              if (confirmLogout) {
+
+                await signout();
+                Get.to(landing());
+              }
             },
-          ),
+          )
         ],
       ),
     );
   }
+}
+
+Future<bool> _showLogoutConfirmationDialog() async {
+  return await showDialog(
+    context: Get.context!,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Logout'),
+        content: Text('Are you sure you want to logout?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+
+              Navigator.of(context).pop(false);
+            },
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: Text('Logout'),
+          ),
+        ],
+      );
+    },
+  );
+}
+Future<bool> showconfirmationdelete() async {
+  return await showDialog(
+    context: Get.context!,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Delete'),
+        content: Text('Are you sure you want to Delete this item from your cart?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+
+              Navigator.of(context).pop(false);
+            },
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: Text('Delete'),
+          ),
+        ],
+      );
+    },
+  );
 }
 
 //Diskon List

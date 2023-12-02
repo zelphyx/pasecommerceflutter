@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pas_kelas11/Cart/cart_view.dart';
 import 'package:pas_kelas11/pages/home_page.dart';
 import 'package:pas_kelas11/Profile/profile.dart';
@@ -10,10 +11,12 @@ import 'DashboardController.dart';
 
 
 class DashboardScreen extends StatelessWidget {
+
   const DashboardScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    GoogleSignInAccount? _currentUser;
     return GetBuilder<DashboardController>(
       builder: (controller) => Scaffold(
         backgroundColor: Colors.grey.shade100,

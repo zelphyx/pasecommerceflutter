@@ -1,11 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../data,method,dll./reusable_widgets.dart';
 import '../data,method,dll/allmethod.dart';
 import 'ProfileController.dart';
-
+import 'TestController.dart';
 
 class Profile extends StatelessWidget {
   final ProfileController _controller = ProfileController();
@@ -27,7 +23,7 @@ class Profile extends StatelessWidget {
       ),
       drawer: NavDrawer(),
       body: FutureBuilder<Map<String, String>>(
-        future: _controller.getDataFromFirebase(),
+        future: _getUserInfo(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // Loading state
@@ -36,7 +32,9 @@ class Profile extends StatelessWidget {
             // Error state
             return Text('Error: ${snapshot.error}');
           } else {
-            // Data loaded successfully
+            String displayName = snapshot.data?['displayName'] ?? "Default Name";
+            String displayEmail = snapshot.data?['email'] ?? "Default Email";
+
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -47,20 +45,19 @@ class Profile extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 50,
-                        backgroundImage: AssetImage('assets/profile_image.jpg'),
+                        backgroundImage: AssetImage('asset/gopay.png'),
                       ),
                       SizedBox(height: 20),
                       Text(
-                        "Name: ${snapshot.data!['name']}",
+                        "Name: $displayName",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 10),
                       Text(
-                        "Email: ${snapshot.data!['email']}",
+                        "Email: $displayEmail",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -77,4 +74,20 @@ class Profile extends StatelessWidget {
       ),
     );
   }
+
+  Future<Map<String, String>> _getUserInfo() async {
+    String loginType = await SharedPreferencesHelper.getLoginType();
+    String email = await SharedPreferencesHelper.getUserEmail();
+    String displayName = await SharedPreferencesHelper.getUserDisplayName();
+
+    if (loginType == "email") {
+
+      Map<String, String> firestoreData = await _controller.getDataFromFirebase();
+      displayName = firestoreData['name'] ?? "Default Name";
+      email = firestoreData['email'] ?? "Default Name";
+    }
+
+    return {'email': email, 'displayName': displayName};
+  }
+
 }

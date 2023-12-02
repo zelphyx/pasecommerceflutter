@@ -5,12 +5,12 @@ import 'package:pas_kelas11/data,method,dll./reusable_widgets.dart';
 
 
 
-class WelcomeUserWidget extends StatelessWidget {
+class GoogleProfile extends StatelessWidget {
 
   late GoogleSignIn _googleSignIn;
   late User _user;
 
-  WelcomeUserWidget(User user, GoogleSignIn signIn) {
+  GoogleProfile(User user, GoogleSignIn signIn) {
     _user = user;
     _googleSignIn = signIn;
   }
