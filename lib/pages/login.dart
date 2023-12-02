@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pas_kelas11/Profile/profile.dart';
 
 import 'package:pas_kelas11/data,method,dll./AuthMethod.dart';
 
@@ -11,14 +12,17 @@ import 'package:pas_kelas11/data,method,dll./reusable_widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pas_kelas11/data,method,dll./snackbar.dart';
 import 'package:pas_kelas11/pages/home_page.dart';
+import 'package:pas_kelas11/pages/test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Profile/TestController.dart';
 import 'ForgotPass.dart';
 
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
-scopes: <String>[
-  'email',
-]
+    scopes: <String>[
+      'email',
+    ]
 );
 class loginpage extends StatefulWidget {
   const loginpage({super.key});
@@ -29,57 +33,70 @@ class loginpage extends StatefulWidget {
 }
 
 class _loginpageState extends State<loginpage> {
+  late SharedPreferences prefs;
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController pwcontroller = TextEditingController();
   GoogleSignInAccount? _currentUser;
   bool ShowSpinner = false;
   bool isLoading = false;
-
-
-
-
-  @override
-  void dispose() {
-    super.dispose();
-    emailcontroller.dispose();
-    pwcontroller.dispose();
+  Future<void> setPreference() async {
+    prefs = await SharedPreferences.getInstance();
   }
-
-  void loginUser() async{
+  void loginUser() async {
+    await setPreference();
     setState(() {
       isLoading = true;
     });
-    String res = await AuthMethod().loginUser(email: emailcontroller.text, password: pwcontroller.text);
-    if(res == "Success"){
+    String res = await AuthMethod().loginUser(
+        email: emailcontroller.text, password: pwcontroller.text);
+    if (res == "Success") {
+
       setState(() {
         isLoading = false;
       });
-      Get.to(HomePage());
-    }else{
-      setState(() {
-        isLoading = false;
-      });
-      showsnackbar(context, res);
+      await prefs.setString("loginType", "email");
+      Get.to(() => HomePage());
+      if (_currentUser != null) {
+        await Get.to(() => Profile()
+        );
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        showsnackbar(context, res);
+      }
+    }
+  }
+  void handleGoogleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+      await _googleSignIn.signIn();
+
+      showsnackbar(context,"Login success");
+      setGoogleSignInPreferences();
+      Get.off(() => HomePage());
+    } catch (error) {
+      print(error);
     }
   }
 
-  @override
+  void setGoogleSignInPreferences() async {
+    await setPreference();
+    await prefs.setString("loginType", "google");
+    await prefs.setString("userEmail", _currentUser!.email ?? "");
+    await prefs.setString("userDisplayName", _currentUser!.displayName ?? "");
+  }
+
   void initState() {
+    super.initState();
     _googleSignIn.onCurrentUserChanged.listen((account) {
       setState(() {
         _currentUser = account;
+        print(_currentUser);
       });
     });
-    _googleSignIn.signInSilently();
-    super.initState();
-  }
-  Future<void> _handleSignIn() async {
-    try {
-      await _googleSignIn.signIn();
 
-    } catch (error) {
-        print(error);
-    }
+    _googleSignIn.signInSilently();
   }
 
   @override
@@ -112,7 +129,7 @@ class _loginpageState extends State<loginpage> {
                   GestureDetector(
                     onTap: () {
                       print("hai berhasil");
-                      Get.to(ForgotPass());
+                      Get.to(() =>ForgotPass());
                     },
                     child: Container(
                       margin: EdgeInsets.only( right: 20, bottom: 5),
@@ -163,7 +180,7 @@ class _loginpageState extends State<loginpage> {
                   SizedBox(height: mediaheight * 0.03,),
                   InkWell(
                     onTap: () {
-                      _handleSignIn();
+                      handleGoogleSignIn();
                     },
                     child: Container(
                       width: 50,
@@ -224,21 +241,30 @@ class _loginpageState extends State<loginpage> {
               ),
             ),
           ],
-         ) : HomePage()
-    //
-    //     Container(child: ListTile(
-    //       leading: GoogleUserCircleAvatar(identity: _currentUser!,),
-    //       title: Text(_currentUser!.displayName ?? ''),
-    //       subtitle: Text(_currentUser!.email),
-    // trailing: IconButton(
-    // onPressed: (){
-    // _googleSignIn.disconnect();
-    // }, icon: Icon(Icons.logout),
-    //     ),
-    //     )
-    //     )
+        ) : HomePage()
+      //
+      //     Container(child: ListTile(
+      //       leading: GoogleUserCircleAvatar(identity: _currentUser!,),
+      //       title: Text(_currentUser!.displayName ?? ''),
+      //       subtitle: Text(_currentUser!.email),
+      // trailing: IconButton(
+      // onPressed: (){
+      // _googleSignIn.disconnect();
+      // }, icon: Icon(Icons.logout),
+      //     ),
+      //     )
+      //     )
     );
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailcontroller.dispose();
+    pwcontroller.dispose();
+  }
+
+
 }
 
 

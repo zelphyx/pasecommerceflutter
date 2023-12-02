@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pas_kelas11/DetailPage/detail_view.dart';
 import 'package:pas_kelas11/Profile/profile.dart';
 import 'package:pas_kelas11/data,method,dll/allmethod.dart';
@@ -11,6 +12,7 @@ import 'package:pas_kelas11/pages/allproducts.dart';
 class HomePage extends StatelessWidget {
   final TextEditingController searchbarcontroller = TextEditingController();
   final ecommercecontroller = Get.put(ControllerProduct());
+  GoogleSignInAccount? _currentUser;
 
   @override
   Widget build(BuildContext context ) {
@@ -25,7 +27,9 @@ class HomePage extends StatelessWidget {
             icon: const Icon(Icons.person),
             tooltip: 'Open shopping cart',
             onPressed: () {
-                  Get.to(Profile());
+                  Get.to(Profile(
+
+                  ));
             },
           ),
         ],
